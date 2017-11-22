@@ -5,12 +5,30 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-let docDefinition = { content: 'This is an sample PDF printed with pdfMake' };
+var docDefinition = {
+  content: [
+    { text: 'This is a header', style: 'header' },
+    'No styling here, this is a standard paragraph',
+    { text: 'Another text', style: 'anotherStyle' },
+    { text: 'Multiple styles applied', style: [ 'header', 'anotherStyle' ] }
+  ],
+
+  styles: {
+    header: {
+      fontSize: 22,
+      bold: true
+    },
+    anotherStyle: {
+      italics: true,
+      alignment: 'right'
+    }
+  }
+};
 
 class App extends Component {
   render() {
     // Opens the generated PDF in a new window on App load!
-    // pdfMake.createPdf(docDefinition).open();
+    pdfMake.createPdf(docDefinition).open();
 
     // Downloads the generated PDF as a .pdf file on App load!
     // pdfMake.createPdf(docDefinition).download();
